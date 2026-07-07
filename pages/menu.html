@@ -366,45 +366,8 @@
 
 
   
-<!-- ── ONE-TIME BULK SEED ── -->
-<div class="form-card" id="seed-card" 
-  style="border:2px dashed #E85D04;margin-bottom:20px">
-  <div class="form-card-title">
-    🌱 Saare Menu Items Ek Saath Add Karo
-  </div>
-  <p style="font-size:12.5px;color:var(--txt3);margin-bottom:14px">
-    Yeh button Bhukkad Food Chaska ke poore menu ke 
-    ~60 items ek click mein add kar dega. 
-    <strong>Sirf EK BAAR chalao</strong> — 
-    dobara chalane se items duplicate ho jaayenge.
-  </p>
-  <button class="btn btn-yellow btn-full" 
-    id="seed-btn" onclick="bulkSeedMenu()">
-    🌱 Saare ~60 Items Add Karo
-  </button>
-  <div id="seed-progress" 
-    style="margin-top:10px;font-size:13px;
-    font-weight:600;color:var(--txt2);display:none">
-  </div>
-</div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   <!-- ── Menu Table ── -->
   <div class="tbl-card">
     <div class="tbl-header">
@@ -1101,110 +1064,7 @@
 
 
 
-// ── BHUKKAD FOOD CHASKA — Full Menu Seed ──
-const SEED_ITEMS = [
-  // TEA & COFFEE
-  {name:'Tea',price:20,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Adrak Tea',price:30,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Masala Tea',price:30,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Hot Coffee (100ml)',price:29,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Hot Coffee (150ml)',price:39,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Cold Coffee',price:49,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  {name:'Cold Coffee With Ice Cream',price:69,type:'veg',category:'Tea & Coffee',emoji:'☕'},
-  // SHAKE
-  {name:'Vanilla Shake',price:59,type:'veg',category:'Shake',emoji:'🥤'},
-  {name:'Chocolate Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
-  {name:'Oreo Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
-  {name:'Kit Kat Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
-  {name:'Butter Scotch Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
-  // MOMOS
-  {name:'Fry Momos',price:49,type:'veg',category:'Momos',emoji:'🥟'},
-  {name:'Tandoori Gravy Momos',price:69,type:'veg',category:'Momos',emoji:'🥟'},
-  {name:'Italian Momos',price:69,type:'veg',category:'Momos',emoji:'🥟'},
-  // CHOWMEIN
-  {name:'Veg Chowmein',price:49,type:'veg',category:'Chowmein',emoji:'🍜'},
-  {name:'Paneer Chowmein',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
-  {name:'Soyabean Chowmein',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
-  {name:'Hakka Noodle',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
-  // SNACKS
-  {name:'French Fries',price:59,type:'veg',category:'Snacks',emoji:'🍟'},
-  {name:'Peri Peri Fries',price:69,type:'veg',category:'Snacks',emoji:'🍟'},
-  {name:'Chilli Potato Fries',price:79,type:'veg',category:'Snacks',emoji:'🍟'},
-  {name:'Honey Chilli Potato Fries',price:89,type:'veg',category:'Snacks',emoji:'🍟'},
-  {name:'Vada Sambar',price:70,type:'veg',category:'Snacks',emoji:'🍽️'},
-  {name:'Fried Rice',price:70,type:'veg',category:'Snacks',emoji:'🍛'},
-  {name:'Pasta',price:70,type:'veg',category:'Snacks',emoji:'🍝'},
-  // MAGGIES
-  {name:'Plain Maggi',price:39,type:'veg',category:'Maggies',emoji:'🍜'},
-  {name:'Masala Maggi',price:49,type:'veg',category:'Maggies',emoji:'🍜'},
-  {name:'Cheese Maggi',price:59,type:'veg',category:'Maggies',emoji:'🍜'},
-  {name:'Paneer Maggi',price:69,type:'veg',category:'Maggies',emoji:'🍜'},
-  {name:'Tandoori Maggi',price:69,type:'veg',category:'Maggies',emoji:'🍜'},
-  // DOSA
-  {name:'Masala Dosa',price:79,type:'veg',category:'Dosa',emoji:'🫓'},
-  {name:'Jini Dosa',price:99,type:'veg',category:'Dosa',emoji:'🫓'},
-  {name:'Pizza Dosa',price:99,type:'veg',category:'Dosa',emoji:'🫓'},
-  {name:'Rava Dosa',price:69,type:'veg',category:'Dosa',emoji:'🫓'},
-  {name:'Uttapam Dosa',price:79,type:'veg',category:'Dosa',emoji:'🫓'},
-  {name:'Idli Sambar',price:60,type:'veg',category:'Dosa',emoji:'🍽️'},
-  {name:'Fried Idli',price:70,type:'veg',category:'Dosa',emoji:'🍽️'},
-  // BURGER
-  {name:'Veg Burger',price:49,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Aloo Tikki Burger',price:59,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Paneer Burger',price:69,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Chilli Burger',price:69,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Bhukkad Burger',price:89,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Paneer Tandoori Burger',price:90,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Corn Pizza Burger',price:90,type:'veg',category:'Burger',emoji:'🍔'},
-  {name:'Bhukkad Special Burger',price:129,type:'veg',category:'Burger',emoji:'🍔'},
-  // PIZZA
-  {name:'Margherita Pizza',price:80,type:'veg',category:'Pizza',emoji:'🍕'},
-  {name:'OTC Pizza',price:90,type:'veg',category:'Pizza',emoji:'🍕'},
-  {name:'Corn Pizza',price:99,type:'veg',category:'Pizza',emoji:'🍕'},
-  {name:'Paneer Tandoori Pizza',price:99,type:'veg',category:'Pizza',emoji:'🍕'},
-  {name:'Bhukkad Special Pizza',price:129,type:'veg',category:'Pizza',emoji:'🍕'},
-  // SANDWICH
-  {name:'Veg Grill Sandwich',price:49,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Bhukkad Burger Sandwich',price:59,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Cheese Grill Sandwich',price:59,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Paneer Corn Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Paneer Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Cheese Corn Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Paneer Tandoori Sandwich',price:79,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Bhukkad Special Sandwich',price:99,type:'veg',category:'Sandwich',emoji:'🥪'},
-  {name:'Vada Pav Jumbo',price:39,type:'veg',category:'Sandwich',emoji:'🥪'},
-];
 
-window.bulkSeedMenu = async function() {
-  if(!confirm(`${SEED_ITEMS.length} items add karne wale ho. Sirf EK BAAR chalao. Confirm?`)) return;
-  const btn = document.getElementById('seed-btn');
-  const prog = document.getElementById('seed-progress');
-  btn.disabled = true;
-  prog.style.display = 'block';
-  let done = 0;
-  for(const it of SEED_ITEMS) {
-    const item = {
-      id: Date.now().toString() + '_' + done,
-      emoji: it.emoji || '🍽️',
-      name: it.name,
-      type: it.type,
-      category: it.category,
-      price: it.price,
-      cost: 0, discount: 0, margin: null,
-      showOnApp: true, isBestSeller: false,
-      prepTime: 0, variants: [],
-      available: true,
-      addedAt: new Date().toISOString(),
-    };
-    try { await saveMenuItem(item); } 
-    catch(e) { console.warn('failed:', it.name); }
-    done++;
-    prog.textContent = `⏳ ${done} / ${SEED_ITEMS.length} items add ho gaye...`;
-  }
-  prog.textContent = `✅ Sab ${done} items add ho gaye!`;
-  await loadMenu();
-  btn.textContent = '✅ Done!';
-};
 
 
 
