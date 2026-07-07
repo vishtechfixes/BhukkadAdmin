@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Bhukkad — Menu Seed</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #111;
+      border: 2px solid #E85D04;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #E85D04;
+      margin-bottom: 6px;
+    }
+    .sub {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .warn {
+      background: #1a0a00;
+      border: 1px solid #E85D04;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: #E85D04;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: #E85D04;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .progress {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #888;
+      display: none;
+      line-height: 1.6;
+    }
+    .progress-bar-wrap {
+      background: #1a1a1a;
+      border-radius: 99px;
+      height: 8px;
+      margin-top: 12px;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-bar {
+      height: 8px;
+      background: #E85D04;
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .success {
+      display: none;
+      margin-top: 20px;
+      background: #051a0a;
+      border: 1px solid #22c55e;
+      border-radius: 10px;
+      padding: 16px;
+      color: #22c55e;
+      font-weight: 700;
+    }
+    .err {
+      display: none;
+      margin-top: 20px;
+      background: #1a0505;
+      border: 1px solid #ef4444;
+      border-radius: 10px;
+      padding: 16px;
+      color: #ef4444;
+      font-size: 13px;
+    }
+    .item-log {
+      margin-top: 16px;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 11.5px;
+      color: #555;
+    }
+    .item-log div { padding: 2px 0; }
+    .item-log div.ok { color: #22c55e; }
+    .item-log div.fail { color: #ef4444; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">🍽️</div>
+  <h1>Bhukkad Food Chaska</h1>
+  <p class="sub">Menu Seed Tool — 60 items ek click mein Firestore mein add karo</p>
+
+  <div class="warn">
+    ⚠️ <strong>Sirf EK BAAR chalao!</strong><br/>
+    Dobara chalane se items duplicate ho jaayenge.<br/>
+    Button dabaane ke baad page band mat karo.
+  </div>
+
+  <button class="btn" id="seed-btn" onclick="startSeed()">
+    🌱 Saare 60 Items Add Karo
+  </button>
+
+  <div class="progress-bar-wrap" id="bar-wrap">
+    <div class="progress-bar" id="bar"></div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <div class="success" id="success"></div>
+  <div class="err" id="err"></div>
+  <div class="item-log" id="log"></div>
+</div>
+
+<script type="module">
+import { db } from '../shared/firebase-config.js';
+import { doc, setDoc } from '../shared/firebase-config.js';
+
+const ITEMS = [
+  // TEA & COFFEE
+  {name:'Tea',price:20,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Adrak Tea',price:30,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Masala Tea',price:30,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Hot Coffee (100ml)',price:29,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Hot Coffee (150ml)',price:39,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Cold Coffee',price:49,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  {name:'Cold Coffee With Ice Cream',price:69,type:'veg',category:'Tea & Coffee',emoji:'☕'},
+  // SHAKE
+  {name:'Vanilla Shake',price:59,type:'veg',category:'Shake',emoji:'🥤'},
+  {name:'Chocolate Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
+  {name:'Oreo Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
+  {name:'Kit Kat Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
+  {name:'Butter Scotch Shake',price:69,type:'veg',category:'Shake',emoji:'🥤'},
+  // MOMOS
+  {name:'Fry Momos',price:49,type:'veg',category:'Momos',emoji:'🥟'},
+  {name:'Tandoori Gravy Momos',price:69,type:'veg',category:'Momos',emoji:'🥟'},
+  {name:'Italian Momos',price:69,type:'veg',category:'Momos',emoji:'🥟'},
+  // CHOWMEIN
+  {name:'Veg Chowmein',price:49,type:'veg',category:'Chowmein',emoji:'🍜'},
+  {name:'Paneer Chowmein',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
+  {name:'Soyabean Chowmein',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
+  {name:'Hakka Noodle',price:59,type:'veg',category:'Chowmein',emoji:'🍜'},
+  // SNACKS
+  {name:'French Fries',price:59,type:'veg',category:'Snacks',emoji:'🍟'},
+  {name:'Peri Peri Fries',price:69,type:'veg',category:'Snacks',emoji:'🍟'},
+  {name:'Chilli Potato Fries',price:79,type:'veg',category:'Snacks',emoji:'🍟'},
+  {name:'Honey Chilli Potato Fries',price:89,type:'veg',category:'Snacks',emoji:'🍟'},
+  {name:'Vada Sambar',price:70,type:'veg',category:'Snacks',emoji:'🍽️'},
+  {name:'Fried Rice',price:70,type:'veg',category:'Snacks',emoji:'🍛'},
+  {name:'Pasta',price:70,type:'veg',category:'Snacks',emoji:'🍝'},
+  // MAGGIES
+  {name:'Plain Maggi',price:39,type:'veg',category:'Maggies',emoji:'🍜'},
+  {name:'Masala Maggi',price:49,type:'veg',category:'Maggies',emoji:'🍜'},
+  {name:'Cheese Maggi',price:59,type:'veg',category:'Maggies',emoji:'🍜'},
+  {name:'Paneer Maggi',price:69,type:'veg',category:'Maggies',emoji:'🍜'},
+  {name:'Tandoori Maggi',price:69,type:'veg',category:'Maggies',emoji:'🍜'},
+  // DOSA
+  {name:'Masala Dosa',price:79,type:'veg',category:'Dosa',emoji:'🫓'},
+  {name:'Jini Dosa',price:99,type:'veg',category:'Dosa',emoji:'🫓'},
+  {name:'Pizza Dosa',price:99,type:'veg',category:'Dosa',emoji:'🫓'},
+  {name:'Rava Dosa',price:69,type:'veg',category:'Dosa',emoji:'🫓'},
+  {name:'Uttapam Dosa',price:79,type:'veg',category:'Dosa',emoji:'🫓'},
+  {name:'Idli Sambar',price:60,type:'veg',category:'Dosa',emoji:'🍽️'},
+  {name:'Fried Idli',price:70,type:'veg',category:'Dosa',emoji:'🍽️'},
+  // BURGER
+  {name:'Veg Burger',price:49,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Aloo Tikki Burger',price:59,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Paneer Burger',price:69,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Chilli Burger',price:69,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Bhukkad Burger',price:89,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Paneer Tandoori Burger',price:90,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Corn Pizza Burger',price:90,type:'veg',category:'Burger',emoji:'🍔'},
+  {name:'Bhukkad Special Burger',price:129,type:'veg',category:'Burger',emoji:'🍔'},
+  // PIZZA
+  {name:'Margherita Pizza',price:80,type:'veg',category:'Pizza',emoji:'🍕'},
+  {name:'OTC Pizza',price:90,type:'veg',category:'Pizza',emoji:'🍕'},
+  {name:'Corn Pizza',price:99,type:'veg',category:'Pizza',emoji:'🍕'},
+  {name:'Paneer Tandoori Pizza',price:99,type:'veg',category:'Pizza',emoji:'🍕'},
+  {name:'Bhukkad Special Pizza',price:129,type:'veg',category:'Pizza',emoji:'🍕'},
+  // SANDWICH
+  {name:'Veg Grill Sandwich',price:49,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Bhukkad Burger Sandwich',price:59,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Cheese Grill Sandwich',price:59,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Paneer Corn Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Paneer Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Cheese Corn Sandwich',price:69,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Paneer Tandoori Sandwich',price:79,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Bhukkad Special Sandwich',price:99,type:'veg',category:'Sandwich',emoji:'🥪'},
+  {name:'Vada Pav Jumbo',price:39,type:'veg',category:'Sandwich',emoji:'🥪'},
+];
+
+window.startSeed = async function() {
+  const btn  = document.getElementById('seed-btn');
+  const prog = document.getElementById('progress');
+  const bar  = document.getElementById('bar');
+  const barW = document.getElementById('bar-wrap');
+  const succ = document.getElementById('success');
+  const errEl= document.getElementById('err');
+  const log  = document.getElementById('log');
+
+  if (!confirm(`${ITEMS.length} items add karne wale ho.\nSirf EK BAAR chalao!\nConfirm karo?`)) return;
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Adding...';
+  prog.style.display = 'block';
+  barW.style.display = 'block';
+  log.innerHTML = '';
+  errEl.style.display = 'none';
+  succ.style.display = 'none';
+
+  let done = 0, failed = 0;
+
+  for (const it of ITEMS) {
+    const id = Date.now().toString() + '_' + done;
+    const item = {
+      id, emoji: it.emoji,
+      name: it.name, type: it.type,
+      category: it.category,
+      price: it.price, cost: 0,
+      discount: 0, margin: null,
+      showOnApp: true, isBestSeller: false,
+      prepTime: 0, variants: [],
+      available: true,
+      addedAt: new Date().toISOString(),
+    };
+    try {
+      await setDoc(doc(db, 'menu', id), item);
+      done++;
+      const d = document.createElement('div');
+      d.className = 'ok';
+      d.textContent = `✅ ${it.name}`;
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+    } catch(e) {
+      failed++;
+      const d = document.createElement('div');
+      d.className = 'fail';
+      d.textContent = `❌ ${it.name}: ${e.message}`;
+      log.appendChild(d);
+    }
+    const pct = Math.round((done+failed)/ITEMS.length*100);
+    bar.style.width = pct + '%';
+    prog.textContent = `⏳ ${done+failed} / ${ITEMS.length} — ${done} added, ${failed} failed`;
+    await new Promise(r => setTimeout(r, 50));
+  }
+
+  if (failed === 0) {
+    succ.style.display = 'block';
+    succ.innerHTML = `✅ Sab ${done} items successfully add ho gaye!<br/>
+      Ab Admin Panel → Menu pe jaao aur check karo.`;
+    btn.textContent = '✅ Done!';
+  } else {
+    errEl.style.display = 'block';
+    errEl.textContent = `⚠️ ${done} items add hue, ${failed} fail hue. Console dekho.`;
+    btn.disabled = false;
+    btn.textContent = '🔄 Retry';
+  }
+  prog.textContent = `Complete: ${done} added, ${failed} failed`;
+};
+</script>
+
+</body>
+</html>
