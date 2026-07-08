@@ -330,7 +330,7 @@ window.toggleEye = function (id) {
 // ============================================================
 window.delBills = function () {
   if (!confirm('⚠️ Sab bills permanently delete ho jaayenge!')) return;
-  localStorage.removeItem('krh_bills');
+  localStorage.removeItem('bfc_bills');
   // Firebase: await deleteDoc / batch delete (add later)
   showToast('✅ Sab bills delete ho gaye');
 };
