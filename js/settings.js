@@ -39,7 +39,7 @@ async function initFirebase() {
 }
 
 // Firestore document paths
-const SHOP_ID   = 'kathi-roll-hub';   // shared/constants.js se match karo
+const SHOP_ID   = 'bhukkad-food-chaska';   // shared/constants.js se match karo
 const COLL_SETT = 'settings';
 const DOC_CFG   = 'config';
 const COLL_SHOP = 'shop';
