@@ -12,10 +12,10 @@ export const SHOP = {
   primaryColor: "#E85D04",
   accentColor:  "#F48C06",
 
-  whatsapp:     "91XXXXXXXXXX",
+  whatsapp:     "919950033888",
   instagram:    "https://www.instagram.com/bhukkad_food_chaska",
   zomato:       "https://zomato.com/YOUR_LINK",
-  googleReview: "https://g.page/r/YOUR_REVIEW_LINK/review",
+  googleReview: "https://maps.app.goo.gl/DwXvXNNu5KxZpNwZ8",
   appLink:      "https://bhukkad.vishtechfixes.com",
 };
 
@@ -26,19 +26,19 @@ export const ADMIN = {
 
 // ── POINTS CONFIG ───────────────────────────────────────────
 export const POINTS = {
-  welcome:       200,
-  perVisit:      5,
-  instagram:     25,
-  googleReview:  30,
-  whatsapp:      20,
-  zomato:        20,
+  welcome:       2,
+  perVisit:      2,
+  instagram:     2,
+  googleReview:  3,
+  whatsapp:      2,
+  zomato:        2,
 };
 
 // ── OFFER DEFAULTS ──────────────────────────────────────────
 export const DEFAULTS = {
-  welcomeDiscPct:  10,
-  visitGoal:       5,
-  visitReward:     "FREE Maggi ya Momos",
+  welcomeDiscPct:  2,
+  visitGoal:       30,
+  visitReward:     "FREE ITEM",
   refSteps:        [50, 120, 200],
   winbackDays:     30,
   lowStockAlert:   5,
