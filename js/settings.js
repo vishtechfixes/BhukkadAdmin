@@ -1,3 +1,4 @@
+
 // ============================================================
 //  admin/js/settings.js  —  Firebase-FIRST version
 //
@@ -39,7 +40,7 @@ async function initFirebase() {
 }
 
 // Firestore document paths
-const SHOP_ID   = 'bhukkad-food-chaska';   // shared/constants.js se match karo
+const SHOP_ID   = 'kathi-roll-hub';   // shared/constants.js se match karo
 const COLL_SETT = 'settings';
 const DOC_CFG   = 'config';
 const COLL_SHOP = 'shop';
@@ -106,8 +107,7 @@ function fillInputs(sh, s) {
   sv('o-disc',  s.defaultWelcomeDisc    || 10);
   sv('o-ppv',   s.defaultPerVisitPts    || 5);
   sv('o-goal',  s.defaultVisitThreshold || 5);
-  sv('o-reward',s.defaultVisitReward    || 
-sv('o-reward', s.defaultVisitReward     || 'FREE Maggi ya Momos');
+  sv('o-reward',s.defaultVisitReward    || 'FREE Roll ya Momos');
   sv('o-wpts',  s.defaultWelcomePts     || 200);
   sv('o-ref',  (s.defaultRefSteps       || [50, 120, 200]).join(','));
 
@@ -330,7 +330,7 @@ window.toggleEye = function (id) {
 // ============================================================
 window.delBills = function () {
   if (!confirm('⚠️ Sab bills permanently delete ho jaayenge!')) return;
-  localStorage.removeItem('bfc_bills');
+  localStorage.removeItem('krh_bills');
   // Firebase: await deleteDoc / batch delete (add later)
   showToast('✅ Sab bills delete ho gaye');
 };
@@ -338,8 +338,8 @@ window.delBills = function () {
 window.delAll = function () {
   if (!confirm('⚠️ SACH MEIN? Customers, bills, menu, settings — sab delete!')) return;
   if (!confirm('LAST CHANCE — permanent delete!')) return;
-  ['bfc_users','bfc_bills','krh_menu','bfc_settings',
-   'bfc_shop','bfc_feedback','bfc_pts_history'].forEach(k =>
+  ['krh_users','krh_bills','krh_menu','krh_settings',
+   'krh_shop','krh_feedback','krh_pts_history'].forEach(k =>
     localStorage.removeItem(k)
   );
   showToast('💀 Reset ho gaya. Refresh ho raha hai...');
@@ -506,3 +506,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     el(id)?.addEventListener('change', updatePreview);
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
